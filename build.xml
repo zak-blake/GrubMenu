@@ -1,0 +1,21 @@
+<project default="compile">
+
+
+ <target name="compile" >  
+ <mkdir dir="build" /> 
+ <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">                                                                                                          
+     <classpath>                                                                                                                              
+         <pathelement location="build"/>                                                                                                          
+         <pathelement location="lib/json-simple-1.1.1.jar"/>                                                   
+     </classpath>                                                                                                                             
+    </javac>       
+ </target>
+
+
+
+  <target name="run" depends="compile" description="run the program">
+    <java classname="ReadJSONMenu" classpath="build","lib/json-simple-1.1.1.jar" />
+  </target>
+
+
+</project>
