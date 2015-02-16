@@ -40,6 +40,7 @@ public class WebUtils {
         OutputStreamWriter osw = new OutputStreamWriter(is);    
         Writer w2 = new BufferedWriter(osw);
         w2.write(result);
+        System.out.println(result);
         w2.close();
 
     }

@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,18 +21,56 @@ public class ReadJSONMenu {
 
 			JSONParser jsonParser = new JSONParser();
 			JSONArray eventList = (JSONArray) jsonParser.parse(reader);
+			int eventCount = eventList.size();
+			System.out.println(eventCount);
 
-			// get a String from the JSON object
-			JSONObject breakfastEvent = (JSONObject) eventList.get(0);
-			JSONObject event = (JSONObject) breakfastEvent.get("Event");
-			System.out.println("The Event name is: " + breakfastEvent);
+			for(int x = 0; x < eventCount; x++) {
+				// Retrieve a single Event from an API call
+				JSONObject event = (JSONObject) eventList.get(x);
+				JSONObject eventInfo = (JSONObject) event.get("Event");
 
+				//Get Dining Common Name
+				JSONObject diningCommonJ = (JSONObject) eventInfo.get("DiningCommon");
+				String diningCommon = (String) diningCommonJ.get("Name");
 
+				//Get Day of Week
+				Long dayOfWeekL = (Long) eventInfo.get("DayOfWeek");
+				int dayOfWeek = Integer.parseInt(dayOfWeekL.toString());
 
+				//Get a meal Name
+				JSONObject mealJ = (JSONObject) eventInfo.get("Meal");
+				String mealName = (String) mealJ.get("Name");
 
-			JSONObject lunchEvent = (JSONObject) eventList.get(1);
-			JSONObject event2 = (JSONObject) lunchEvent.get("Event");
-			System.out.println("The Event name is: " + event2);
+				//Get a meal Date
+				String date = (String) event.get("Date");
+				date = date.split("T")[0];
+
+				//Begin Creation of Data Structures for a single API CALL
+				DayMenu myDayMenu = new DayMenu(date,diningCommon,dayOfWeek);
+				Meal meal = new Meal(mealName);
+
+				//parse MenuItem array
+				JSONArray menuItemList = (JSONArray) event.get("MenuItems");
+				int count = menuItemList.size();
+
+				//Create ArrayList for a single meal at a Dining Common
+				for (int i = 0; i < count; i++) {
+					JSONObject menuItem = (JSONObject) menuItemList.get(i);
+					JSONObject menuCategoryJ = (JSONObject) menuItem.get("MenuCategory");
+					JSONObject menuItemTypeJ = (JSONObject) menuItem.get("MenuItemType");
+					String title = (String) menuItem.get("Title");
+					String menuCategory = (String) menuCategoryJ.get("Name");
+					String menuItemType = (String) menuItemTypeJ.get("Name");
+					MenuItem food = new MenuItem(title,menuCategory,menuItemType);
+					meal.addMenuItem(food);
+				}
+
+				//Insert meal into DayMenu
+				myDayMenu.addMeal(meal);
+
+				System.out.println(myDayMenu.toString());
+			}
+
 
 
 		} catch (FileNotFoundException ex) {

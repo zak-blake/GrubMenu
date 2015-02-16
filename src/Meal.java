@@ -1,20 +1,38 @@
-
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.HashMap; 
 
 
 public class Meal {
-	private String name;
-	private ArrayList<HashMap<String,HashMap<String, String>>> menuItems;
+	private String mealName;
+	private ArrayList<MenuItem> menuItems;
 
-
-	public Meal() {
-		menuItems = new ArrayList<HashMap<String,HashMap<String, String>>>();
+	public Meal(String mealName) {
+		this.mealName = mealName;
+		menuItems = new ArrayList<MenuItem>();
 	}
 
-
-	public HashMap<String,HashMap<String, String>> getMenuItem(String menuCategory){
+	public MenuItem getMenuItem() {
 		return menuItems.get(0);
+	}
+
+	public String getMealName() { 
+		return this.mealName;
+	}
+
+	public void addMenuItem(MenuItem item) {
+		menuItems.add(item);
+	}
+
+	public String toString() { 
+		String mealString;
+		mealString = mealName + ":\n";
+
+		for(MenuItem item : menuItems) { 
+			mealString = mealString + item.toString();
+			mealString = mealString + "\n";
+		}	
+
+		return mealString;
 	}
 }
