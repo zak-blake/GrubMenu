@@ -17,6 +17,12 @@ public class DayMenu {
 		setDay(day);
 	}
 
+	public DayMenu(){
+		date = "";
+		diningCommon = "";
+		day = 0;
+	}
+
 	//getters
 
 	public String getDate(){
@@ -40,6 +46,13 @@ public class DayMenu {
 	public void setDay(int day){
 		this.day = day;
 	}
+
+	public void setData(String date, String diningCommon, int day){
+		this.date = date;
+		this.diningCommon = diningCommon;
+		this.day = day;
+	}
+
 
 	//Methods
 

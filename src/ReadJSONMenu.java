@@ -22,7 +22,8 @@ public class ReadJSONMenu {
 			JSONParser jsonParser = new JSONParser();
 			JSONArray eventList = (JSONArray) jsonParser.parse(reader);
 			int eventCount = eventList.size();
-			System.out.println(eventCount);
+
+			DayMenu myDayMenu = new DayMenu("","",0);
 
 			for(int x = 0; x < eventCount; x++) {
 				// Retrieve a single Event from an API call
@@ -46,7 +47,7 @@ public class ReadJSONMenu {
 				date = date.split("T")[0];
 
 				//Begin Creation of Data Structures for a single API CALL
-				DayMenu myDayMenu = new DayMenu(date,diningCommon,dayOfWeek);
+				myDayMenu.setData(date,diningCommon,dayOfWeek);
 				Meal meal = new Meal(mealName);
 
 				//parse MenuItem array
@@ -67,10 +68,8 @@ public class ReadJSONMenu {
 
 				//Insert meal into DayMenu
 				myDayMenu.addMeal(meal);
-
-				System.out.println(myDayMenu.toString());
 			}
-
+			System.out.println(myDayMenu.toString());
 
 
 		} catch (FileNotFoundException ex) {
